@@ -7,6 +7,7 @@ Code, Compile, Run and Debug online from anywhere in world.
 
 *******************************************************************************/
 #include <stdio.h>
+#include <iostream>
 
 enum {
     CEDULA_100,
@@ -39,7 +40,6 @@ int calculaQuantidadePorTipo(double valorTotal, double valor)
         
         quant = (int) valorTotal / valor;
     }
-    
     return quant;
 }
 
@@ -76,7 +76,45 @@ void getNumMoedas(double troco)
 
 int main()
 {
-    printf("Hello World");
+    double troco;
+    
+    double valorPago, valorDevido;
+    printf("Hello World\n");
 
+    std::cout << "Entre com o valor pago: " << std::endl;
+    std::cin >> valorPago;
+    std::cout << "Entre com o valor devido: " << std::endl;
+    std::cin >> valorDevido;
+    
+    // Calcula o troco
+    troco = valorPago - valorDevido;
+    
+    if (troco > 0)
+    {
+        // Calcula as cedulas e moedas do troco
+        
+        std::cout << "O troco sera devolvido conforme abaixo:"  << std::endl;
+        
+        // Verifica se existe algum troco para tipo de cedulas
+        for (int i = 0; i < MAX_CEDULAS; i++)
+        {
+            if (cedulas[i] > 0)
+            {
+                std::cout << cedulas[i] << "cedulas de R$" << valorCedulas[i] << std::endl;
+            }
+        }
+
+        // Verifica se existe algum troco para tipo de moedas
+        for (int i = 0; i < MAX_MOEDAS; i++)
+        {
+            if (moedas[i] > 0)
+            {
+                std::cout << moedas[i] << "moedas de R$" << valorMoedas[i] << std::endl;
+            }
+        }
+    }
+    
+    printf("Valor pago: %f\n", valorPago);
+    printf("Valor devido: %f\n", valorDevido);
     return 0;
 }
