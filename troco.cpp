@@ -17,36 +17,63 @@ enum {
     MAX_CEDULAS
 };
 
+enum {
+    MOEDA_50,
+    MOEDA_10,
+    MOEDA_5,
+    MOEDA_1,
+    MAX_MOEDAS
+};
+
 int cedulas[MAX_CEDULAS];
+int moedas[MAX_MOEDAS];
+double valorCedulas[MAX_CEDULAS] = {100, 50, 10, 5, 1};
+double valorMoedas[MAX_MOEDAS] = {0.50, 0.10, 0.5, 0.1};
 
-
-// Calcula numro de cedulas para o tronco
-//
-int getNumCedulas(double troco)
+int calculaQuantidadePorTipo(double valorTotal, double valor)
 {
-    int numCedulas;
+    int quant = 0;
+    
+    // Calcula quantidades
+    if(valorTotal > valor) {
+        
+        quant = (int) valorTotal / valor;
+    }
+    
+    return quant;
+}
+
+
+// Calcula numro de cedulas para o troco
+//
+void getNumCedulas(double troco)
+{
+    int numCedulas = 0;
     double valorParcial = troco;
     
-    // Calculo numero de cedulas de R$100
-    if(valorParcial > 100) {
-        
-        numCedulas = (int) valorParcial / 100;
-        cedulas[CEDULA_100] = numCedulas;
-        
+    for (int i=0;i<MAX_CEDULAS;i++){
+        // Calcula numero de itens (cedulas ou moedas)
+        cedulas[i] = calculaQuantidadePorTipo(valorParcial, valorCedulas[i]);
         // Caclula troco restante
-        valorParcial -= (numCedulas * 100);
-    } 
-    
-    // Calculo numero de cedulas de R$50
-    if(valorParcial > 100) {
-        
-        numCedulas = (int) valorParcial / 100;
-        cedulas[CEDULA_100] = numCedulas;
-        
-        // Caclula troco restante
-        valorParcial -= (numCedulas * 100);
-    } 
+        valorParcial -= (cedulas[i] * valorCedulas[i]);
+    }
 }
+
+
+void getNumMoedas(double troco)
+{
+    int numMoedas = 0;
+    double valorParcial = troco;
+    
+    for (int i=0;i<MAX_MOEDAS;i++){
+        // Calcula numero de itens (cedulas ou moedas)
+        moedas[i] = calculaQuantidadePorTipo(valorParcial, valorMoedas[i]);
+        // Caclula troco restante
+        valorParcial -= (moedas[i] * valorMoedas[i]);
+    }
+}
+
+
 int main()
 {
     printf("Hello World");
