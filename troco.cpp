@@ -33,22 +33,20 @@ double valorMoedas[MAX_MOEDAS] = {0.50, 0.10, 0.5, 0.1};
 
 int calculaQuantidadePorTipo(double valorTotal, double valor)
 {
-    int quant = 0;
+    double quant = 0;
     
     // Calcula quantidades
-    if(valorTotal > valor) {
+    if(valorTotal >= valor) {
         
-        quant = (int) valorTotal / valor;
+        quant = valorTotal / valor;
     }
     return quant;
 }
 
 
 // Calcula numro de cedulas para o troco
-//
-void getNumCedulas(double troco)
+double getNumCedulas(double troco)
 {
-    int numCedulas = 0;
     double valorParcial = troco;
     
     for (int i=0;i<MAX_CEDULAS;i++){
@@ -57,12 +55,12 @@ void getNumCedulas(double troco)
         // Caclula troco restante
         valorParcial -= (cedulas[i] * valorCedulas[i]);
     }
+    return valorParcial;
 }
 
 
 void getNumMoedas(double troco)
 {
-    int numMoedas = 0;
     double valorParcial = troco;
     
     for (int i=0;i<MAX_MOEDAS;i++){
@@ -77,6 +75,7 @@ void getNumMoedas(double troco)
 int main()
 {
     double troco;
+    double trocoParcial;
     
     double valorPago, valorDevido;
     printf("Hello World\n");
@@ -88,6 +87,14 @@ int main()
     
     // Calcula o troco
     troco = valorPago - valorDevido;
+    
+    // Calcula as cedulas do troco
+    trocoParcial = getNumCedulas(troco);
+    
+    std::cout << "---PARCIAL---" << trocoParcial << std::endl;
+    
+    // Calcula as moedas do troco
+    getNumMoedas(trocoParcial);
     
     if (troco > 0)
     {
@@ -114,7 +121,6 @@ int main()
         }
     }
     
-    printf("Valor pago: %f\n", valorPago);
-    printf("Valor devido: %f\n", valorDevido);
+
     return 0;
 }
