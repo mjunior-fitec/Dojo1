@@ -8,6 +8,7 @@ Code, Compile, Run and Debug online from anywhere in world.
 *******************************************************************************/
 #include <stdio.h>
 #include <iostream>
+#include <math.h>
 
 enum {
     CEDULA_100,
@@ -29,7 +30,7 @@ enum {
 int cedulas[MAX_CEDULAS];
 int moedas[MAX_MOEDAS];
 double valorCedulas[MAX_CEDULAS] = {100, 50, 10, 5, 1};
-double valorMoedas[MAX_MOEDAS] = {0.50, 0.10, 0.5, 0.1};
+double valorMoedas[MAX_MOEDAS] = {0.50, 0.10, 0.05, 0.01};
 
 int calculaQuantidadePorTipo(double valorTotal, double valor)
 {
@@ -37,7 +38,6 @@ int calculaQuantidadePorTipo(double valorTotal, double valor)
     
     // Calcula quantidades
     if(valorTotal >= valor) {
-        
         quant = valorTotal / valor;
     }
     return quant;
@@ -71,19 +71,23 @@ void getNumMoedas(double troco)
     }
 }
 
-
 int main()
 {
     double troco;
     double trocoParcial;
     
     double valorPago, valorDevido;
-    printf("Hello World\n");
 
     std::cout << "Entre com o valor pago: " << std::endl;
     std::cin >> valorPago;
     std::cout << "Entre com o valor devido: " << std::endl;
     std::cin >> valorDevido;
+    
+    if(valorPago < valorDevido || valorDevido < 0 || valorPago < 0) {
+        std::cout << "Valores Invalidos " << std::endl;
+        return -1;
+    }
+    
     
     // Calcula o troco
     troco = valorPago - valorDevido;
