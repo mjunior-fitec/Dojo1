@@ -10,6 +10,8 @@ Code, Compile, Run and Debug online from anywhere in world.
 #include <iostream>
 #include <math.h>
 
+double valorPago, valorDevido;
+
 enum {
     CEDULA_100,
     CEDULA_50,
@@ -44,10 +46,10 @@ int calculaQuantidadePorTipo(double valorTotal, double valor)
 }
 
 
-// Calcula numro de cedulas para o troco
+// Calcula numero de cedulas, salva no vetor e retorna a parte fracionaria restante
 double getNumCedulas(double troco)
 {
-    double valorParcial = troco;
+    double valorParcial = roundf(troco * 100) / 100;
     
     for (int i=0;i<MAX_CEDULAS;i++){
         // Calcula numero de itens (cedulas ou moedas)
@@ -58,7 +60,13 @@ double getNumCedulas(double troco)
     return valorParcial;
 }
 
+void testeGetNumCedulas(){
+    double resposta = getNumCedulas(500);
+    if(resposta == 0) std::cout << "Numero de Celulas OK" << std::endl;
+    else std::cout << "Numero de Celulas ERRADO!!!!!!!" << std::endl;
+}
 
+// Calcula numero de moedas para o valor fracionario desejado
 void getNumMoedas(double troco)
 {
     double valorParcial = troco;
@@ -71,13 +79,8 @@ void getNumMoedas(double troco)
     }
 }
 
-int main()
+void lerDados()
 {
-    double troco;
-    double trocoParcial;
-    
-    double valorPago, valorDevido;
-
     std::cout << "Entre com o valor pago: " << std::endl;
     std::cin >> valorPago;
     std::cout << "Entre com o valor devido: " << std::endl;
@@ -85,17 +88,21 @@ int main()
     
     if(valorPago < valorDevido || valorDevido < 0 || valorPago < 0) {
         std::cout << "Valores Invalidos " << std::endl;
-        return -1;
     }
+}
+
+int main()
+{
+    double troco;
+    double trocoParcial;
     
-    
+    lerDados();
+    testeGetNumCedulas();
     // Calcula o troco
     troco = valorPago - valorDevido;
     
     // Calcula as cedulas do troco
     trocoParcial = getNumCedulas(troco);
-    
-    std::cout << "---PARCIAL---" << trocoParcial << std::endl;
     
     // Calcula as moedas do troco
     getNumMoedas(trocoParcial);
